@@ -3,10 +3,11 @@ from pip.cmdoptions import no_binary
 
 from grafo123 import Grafo
 n = ["a", "b", "c", "d"]
-a = {"a1":"a-b", "a2":"b-c", "a3":"c-d","a4":"d-a"}
+a = {"a1":"a-b", "a2":"b-c", "a3":"c-d", "a4":"d-a" }
 grafo = Grafo(N=n, A=a);
 matriz = grafo.colocaMatriz(a, n)
-print(type(matriz))
+
+matriz2 = [[0,1,0,0],[0,0,1,0],[0,0,0,1],[0,0,0,0]]
 
 def naoAdjacente(n, matriz):
     listaNaoAdjacente = []
@@ -176,12 +177,21 @@ def criaMatriz(matriz1):
     return matriz
 
 def max(pos_1, pos_2):
-    if pos_1 != pos_2:
+    if pos_1 != pos_2 or (pos_1 == 1 and pos_2 == 1):
         return 1
     return 0
 
+def clone(matriz):
+    matrizClone = criaMatriz(matriz)
+    for i in range(len(matriz)):
+        for j in range(len(matriz)):
+            if matriz[i][j] != 1:
+                matrizClone[i][j] = 0
+            else: matrizClone[i][j] = 1
+    return matrizClone
+
 def warshall(matriz_adjacencia):
-    E = criaMatriz(matriz_adjacencia)
+    E = clone(matriz_adjacencia)
     for i in range(len(E)):
         for j in range(len(E)):
             if E[j][i] == 1:
@@ -259,5 +269,13 @@ for i in range(len(matriz)):
     for j in range(len(matriz)):
         print(matriz[i][j], end=" ")
     print('')
+
+print("-----------------------------")
 #print(ligacao(matriz))
-print(euleriano(matriz))
+for i in range(len(matriz2)):
+    e = warshall(matriz2)
+    print(e[i])
+
+print("-----------------------------")
+for i in range(len(matriz2)):
+    print(matriz2[i])
